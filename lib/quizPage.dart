@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:smtm_app/widgets/MyAppBar.dart';
 import 'package:smtm_app/widgets/MyBottomNav.dart';
@@ -14,7 +15,9 @@ class _QuizPageState extends State<QuizPage> {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: MyAppBar(title: 'Quiz!'),
-      body: Center(),
+      body: Center(
+        child: Text('Quiz page')
+      ),
       bottomNavigationBar: MyBottomNav(currentIndex: 1,),
     );
   }

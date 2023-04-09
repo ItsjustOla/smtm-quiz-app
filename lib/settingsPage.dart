@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:smtm_app/widgets/MyAppBar.dart';
 import 'package:smtm_app/widgets/MyBottomNav.dart';
@@ -14,7 +15,9 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: MyAppBar(title: 'Settings'),
-      body: Center(),
+      body: Center(
+          child: Text('Settings page')
+      ),
       bottomNavigationBar: MyBottomNav(currentIndex: 2,),
     );
   }

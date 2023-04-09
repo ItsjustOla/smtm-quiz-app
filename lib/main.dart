@@ -1,14 +1,18 @@
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:smtm_app/models/QuizModel.dart';
 import 'package:smtm_app/quizPage.dart';
 import 'package:smtm_app/settingsPage.dart';
 import 'package:smtm_app/widgets/expandable_card_container.dart';
 import 'package:smtm_app/widgets/my_alert_dialog.dart';
 import 'helpers/questions_helper.dart';
-import 'dataModels/questions.dart';
+import 'models/questions.dart';
 import 'helpers/style_helper.dart';
 import 'widgets/MyAppBar.dart';
 import 'widgets/MyBottomNav.dart';
 import 'package:collection/collection.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,17 +23,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: StyleHelper().mycolor,
+    return ChangeNotifierProvider(
+      create: (context) => QuizModel(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: StyleHelper().mycolor,
+        ),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const MyHomePage(),
+          '/quiz': (context) => const QuizPage(),
+          '/settings': (context) => const SettingsPage(),
+        },
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const MyHomePage(),
-        '/quiz': (context) => const QuizPage(),
-        '/settings': (context) => const SettingsPage(),
-      },
     );
   }
 }
