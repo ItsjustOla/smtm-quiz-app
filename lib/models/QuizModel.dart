@@ -7,21 +7,34 @@ import 'QuestionChoice.dart';
 
 class QuizModel extends ChangeNotifier {
 
-  late List<QaPair> _questions;
+  List<QaPair> _questions = List.empty();
   int _currentQuestionIndex = 0;
 
   // QuestionFlipCard get questionCard => QuestionFlipCard(_questions[_currentQuestionIndex]);
 
   int get questionsLength => _questions.length;
-  int get currentQuestion => _currentQuestionIndex + 1;
+  int get currentQuestionIndex => _currentQuestionIndex ;
+  int get currentQuestion => _currentQuestionIndex + 1; // used for display purposes
 
   void nextQuestion(){
+    if( questionsLength > 0 && currentQuestion == questionsLength + 1){ // maybe set to -1?
+      return;
+    }
     _currentQuestionIndex += 1;
     notifyListeners();
   }
 
   void previousQuestion(){
+    if(_currentQuestionIndex <= 0){ // maybe set to -1?
+      return;
+    }
     _currentQuestionIndex -= 1;
+    notifyListeners();
+  }
+
+  void resetQuiz(){
+    _questions = List.empty();
+    _currentQuestionIndex = 0;
     notifyListeners();
   }
 
@@ -44,6 +57,7 @@ class QuizModel extends ChangeNotifier {
         _questions = tmQs;
         break;
     }
+    notifyListeners();
   }
 
   List<QaPair> handleAllQuestions(AllQuestions qs){

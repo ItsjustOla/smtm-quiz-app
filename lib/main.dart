@@ -12,7 +12,6 @@ import 'helpers/style_helper.dart';
 import 'widgets/MyAppBar.dart';
 import 'widgets/MyBottomNav.dart';
 import 'package:collection/collection.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: StyleHelper().mycolor,
+          primarySwatch: StyleHelper().myColor,
         ),
         initialRoute: '/',
         routes: {
@@ -133,6 +132,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   const SizedBox(height: 12),
                   _expansionList(data.tmQuestions.qaPair, _isOpen1),
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 100),
+                    decoration: const BoxDecoration(color: Colors.green),
+                    child: const Center(
+                      child: Text('Advert goes here!'),
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   Text('${data.smQuestions.qaPair.length} - Show Me Questions ',
                       style: StyleHelper().h1
