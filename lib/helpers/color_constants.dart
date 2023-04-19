@@ -18,5 +18,4 @@ class ColorConstants {
       900: Color.fromRGBO(29, 112, 184, 1),
     },
   );
-
 }
