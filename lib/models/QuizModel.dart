@@ -15,6 +15,7 @@ class QuizModel extends ChangeNotifier {
   int get questionsLength => _questions.length;
   int get currentQuestionIndex => _currentQuestionIndex ;
   int get currentQuestion => _currentQuestionIndex + 1; // used for display purposes
+  bool get isLastQuestion => currentQuestion == questionsLength; // used for display purposes
 
   void nextQuestion(){
     if( questionsLength > 0 && currentQuestion == questionsLength + 1){ // maybe set to -1?

@@ -8,7 +8,8 @@ import 'package:smtm_app/widgets/expandable_card_container.dart';
 import 'package:smtm_app/widgets/my_alert_dialog.dart';
 import 'helpers/questions_helper.dart';
 import 'models/questions.dart';
-import 'helpers/style_helper.dart';
+import 'helpers/text_constants.dart';
+import 'helpers/color_constants.dart';
 import 'widgets/MyAppBar.dart';
 import 'widgets/MyBottomNav.dart';
 import 'package:collection/collection.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: StyleHelper().myColor,
+          primarySwatch: ColorConstants().myColor,
         ),
         initialRoute: '/',
         routes: {
@@ -47,7 +48,7 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TextConstants {
   final List<bool> _isOpen1 = List<bool>.filled(14, false);
   final List<bool> _isOpen2 = List<bool>.filled(7, false);
 
@@ -85,21 +86,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 header: 'Question ${index+1}',
                 collapsedChild: Text(
                   pair.question,
-                  style: StyleHelper().newQs,
+                  style: newQs,
                 ),
                 expandedChild: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
                       pair.question,
-                      style: StyleHelper().newQs,
+                      style: newQs,
                     ),
                     const SizedBox(
                       height: 12,
                     ),
                     Text(
                       pair.answer,
-                      style: StyleHelper().newAs,
+                      style: newAs,
                     )
                   ],
                 ),
@@ -128,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   MyAlertDialog().getDialog(context),
                   const SizedBox(height: 12),
                   Text('${data.tmQuestions.qaPair.length} - Tell Me Questions ',
-                      style: StyleHelper().h1
+                      style: h1
                   ),
                   const SizedBox(height: 12),
                   _expansionList(data.tmQuestions.qaPair, _isOpen1),
@@ -142,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   const SizedBox(height: 12),
                   Text('${data.smQuestions.qaPair.length} - Show Me Questions ',
-                      style: StyleHelper().h1
+                      style: h1
                   ),
                   const SizedBox(height: 12),
                   _expansionList(data.smQuestions.qaPair, _isOpen2)
