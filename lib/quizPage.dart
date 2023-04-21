@@ -1,10 +1,12 @@
 import 'package:flip_card/flip_card.dart';
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smtm_app/helpers/text_constants.dart';
 import 'package:smtm_app/models/QuizModel.dart';
 import 'package:smtm_app/widgets/MyAppBar.dart';
 import 'package:smtm_app/widgets/MyBottomNav.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import 'helpers/color_constants.dart';
 import 'models/QuestionChoice.dart';
@@ -18,6 +20,7 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> with TextConstants {
   QuestionChoice _questionSelection = QuestionChoice.all;
+  final FlipCardController _controller = FlipCardController();
 
   Widget startView(QuizModel model) {
     return myDefaultPadding(Column(
@@ -110,82 +113,124 @@ class _QuizPageState extends State<QuizPage> with TextConstants {
     ));
   }
 
-  Widget quizView(QuizModel model) {
-    return myDefaultPadding(Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        // replcae with progress bar
-        Align(
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                Text('Questions: ${model.questionsLength}'),
-                Text('Current question: ${model.currentQuestion}'),
-              ],
-            )),
-
-        Card(
-          elevation: 0.0,
-          color: Colors.transparent,
-          child: FlipCard(
-            direction: FlipDirection.VERTICAL,
-            side: CardSide.FRONT,
-            speed: 750,
-            front: Container(
-              decoration: BoxDecoration(
-                color: ColorConstants().myColor[200],
-                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-              ),
+  Widget getMyFlipCard(String question, String answer){
+    return Expanded(
+      child: Card(
+        elevation: 0.0,
+        color: Colors.transparent,
+        child: FlipCard(
+          controller: _controller,
+          direction: FlipDirection.HORIZONTAL,
+          side: CardSide.FRONT,
+          speed: 750,
+          front: Container(
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              color: ColorConstants().myColor[400],
+              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+            ),
+            child: Container(
+              color: Colors.white70,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text('Question', style: Theme.of(context).textTheme.titleLarge),
-                  Text('Your question here...', style: Theme.of(context).textTheme.bodyMedium),
-                  Text('Click here to flip back',
-                      style: Theme.of(context).textTheme.bodySmall),
+                  const SizedBox(height: 14,),
+                  Text('Question',
+                      style: Theme.of(context).textTheme.titleLarge),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(question,
+                      style: const TextStyle(
+                        fontSize: 24.0, // or any other size that works for your design
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        letterSpacing: 0.5, // adjust this to add spacing between letters
+                        height: 1.5, // adjust this to add spacing between lines
+                      ),
+                    ),
+                  ),
+                  const Spacer(flex: 2,),
+                  Align(
+                    child: Text('Tap card to reveal answer',
+                        style: Theme.of(context).textTheme.bodySmall),
+                  ),
+                  const SizedBox(height: 14,),
                 ],
               ),
             ),
-            back: Container(
-              decoration: BoxDecoration(
-                color: ColorConstants().myColor[200],
-                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-              ),
+          ),
+          back: Container(
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              color: ColorConstants().myColor2[400],
+              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+            ),
+            child: Container(
+              color: Colors.white70,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Answer', style: Theme.of(context).textTheme.titleLarge),
-                  Text('Your answer goes here...', style: Theme.of(context).textTheme.bodyMedium),
-                  Text('Click here to flip front',
-                      style: Theme.of(context).textTheme.bodySmall),
+                  const SizedBox(height: 14,),
+                  Text('Answer',
+                      style: Theme.of(context).textTheme.titleLarge),
+                  const Spacer(),
+                  SizedBox(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(answer,
+                        style: const TextStyle(
+                          fontSize: 18.0, // or any other size that works for your design
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          letterSpacing: 0.5, // adjust this to add spacing between letters
+                          height: 1.5, // adjust this to add spacing between lines
+                        ),
+                        softWrap: true,
+                        overflow: TextOverflow.clip,
+                      ),
+                    ),
+                  ),
+                  const Spacer(flex: 2,),
+                  Align(
+                    child: Text('Tap card to return to question',
+                        style: Theme.of(context).textTheme.bodySmall),
+                  ),
+                  const SizedBox(height: 14,),
                 ],
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
 
-        // card goes here
-        // const Card(
-        //   margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 20.0, bottom: 0.0),
-        //   color: Color(0x00000000),
-        //   child: FlipCard(
-        //     fill: Fill.fillBack,
-        //     front: Text('front'),
-        //     back: Text('back'),
-        //     speed: 800,
-        //   ),
-        // ),
-        SizedBox(
-          height: 100,
+  Widget quizView(QuizModel model) {
+    return myDefaultPadding(Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Align(
+            alignment: Alignment.center,
+            child: Text('Question: ${model.currentQuestionDisplay}/${model.questionsLength}',
+            style: Theme.of(context).textTheme.titleMedium,),
         ),
+        const SizedBox(height: 12,),
+        StepProgressIndicator(
+          totalSteps: model.questionsLength,
+          currentStep: model.currentQuestionDisplay,
+          size: 10,
+          roundedEdges: const Radius.circular(10),
+        ),
+        const SizedBox(height: 22,),
+        getMyFlipCard(model.currentQuestion.question, model.currentQuestion.answer),
+        const SizedBox(height: 28,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ElevatedButton(
               onPressed: () {
                 model.previousQuestion();
+                if(!_controller.state!.isFront) _controller.toggleCard();
               },
               child: const Icon(Icons.arrow_back_rounded),
             ),
@@ -198,6 +243,7 @@ class _QuizPageState extends State<QuizPage> with TextConstants {
             ElevatedButton(
               onPressed: () {
                 model.nextQuestion();
+                if(!_controller.state!.isFront) _controller.toggleCard();
               },
               child: model.isLastQuestion
                   ? const Text('End Quiz')
@@ -245,7 +291,7 @@ class _QuizPageState extends State<QuizPage> with TextConstants {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(title: 'Quiz!'),
-      body: Center(child: Consumer<QuizModel>(
+      body: Consumer<QuizModel>(
         builder: (context, quiz, child) {
           if (quiz.questionsLength <= 0) {
             return startView(quiz);
@@ -255,7 +301,7 @@ class _QuizPageState extends State<QuizPage> with TextConstants {
             return quizView(quiz);
           }
         },
-      )),
+      ),
       bottomNavigationBar: const MyBottomNav(
         currentIndex: 1,
       ),

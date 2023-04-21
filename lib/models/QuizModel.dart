@@ -14,11 +14,12 @@ class QuizModel extends ChangeNotifier {
 
   int get questionsLength => _questions.length;
   int get currentQuestionIndex => _currentQuestionIndex ;
-  int get currentQuestion => _currentQuestionIndex + 1; // used for display purposes
-  bool get isLastQuestion => currentQuestion == questionsLength; // used for display purposes
+  int get currentQuestionDisplay => _currentQuestionIndex + 1; // used for display purposes
+  bool get isLastQuestion => currentQuestionDisplay == questionsLength; // used for display purposes - show quiz end page
+  QaPair get currentQuestion => _questions[currentQuestionIndex];
 
   void nextQuestion(){
-    if( questionsLength > 0 && currentQuestion == questionsLength + 1){ // maybe set to -1?
+    if( questionsLength > 0 && currentQuestionDisplay == questionsLength + 1){
       return;
     }
     _currentQuestionIndex += 1;
@@ -44,21 +45,23 @@ class QuizModel extends ChangeNotifier {
     switch (choice) {
       case QuestionChoice.all:
         var qs = handleAllQuestions(allQs);
-        qs.shuffle;
         _questions = qs;
-        break;
-      case QuestionChoice.showMe:
-        var smQs = allQs.smQuestions.qaPair;
-        smQs.shuffle;
-        _questions = smQs;
+        _questions.shuffle();
+        notifyListeners();
         break;
       case QuestionChoice.tellMe:
         var tmQs = allQs.tmQuestions.qaPair;
-        tmQs.shuffle;
         _questions = tmQs;
+        _questions.shuffle();
+        notifyListeners();
+        break;
+      case QuestionChoice.showMe:
+        var smQs = allQs.smQuestions.qaPair;
+        _questions = smQs;
+        _questions.shuffle();
+        notifyListeners();
         break;
     }
-    notifyListeners();
   }
 
   List<QaPair> handleAllQuestions(AllQuestions qs){
