@@ -2,13 +2,13 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smtm_app/helpers/text_constants.dart';
-import 'package:smtm_app/models/QuizModel.dart';
-import 'package:smtm_app/widgets/MyAppBar.dart';
-import 'package:smtm_app/widgets/MyBottomNav.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
+import 'models/QuizModel.dart';
+import 'widgets/MyAppBar.dart';
+import 'widgets/MyBottomNav.dart';
 import 'helpers/color_constants.dart';
+import '/helpers/text_constants.dart';
 import 'models/QuestionChoice.dart';
 
 class QuizPage extends StatefulWidget {
@@ -124,7 +124,7 @@ class _QuizPageState extends State<QuizPage> with TextConstants {
           side: CardSide.FRONT,
           speed: 750,
           front: Container(
-            padding: const EdgeInsets.all(18),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: ColorConstants().myColor[400],
               borderRadius: const BorderRadius.all(Radius.circular(8.0)),
@@ -138,7 +138,7 @@ class _QuizPageState extends State<QuizPage> with TextConstants {
                       style: Theme.of(context).textTheme.titleLarge),
                   const Spacer(),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(18.0),
                     child: Text(question,
                       style: const TextStyle(
                         fontSize: 24.0, // or any other size that works for your design
@@ -160,7 +160,7 @@ class _QuizPageState extends State<QuizPage> with TextConstants {
             ),
           ),
           back: Container(
-            padding: const EdgeInsets.all(18),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: ColorConstants().myColor2[400],
               borderRadius: const BorderRadius.all(Radius.circular(8.0)),
@@ -175,7 +175,7 @@ class _QuizPageState extends State<QuizPage> with TextConstants {
                   const Spacer(),
                   SizedBox(
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(18.0),
                       child: Text(answer,
                         style: const TextStyle(
                           fontSize: 18.0, // or any other size that works for your design
